@@ -7,7 +7,7 @@ dotenv.config();
 import app from './app.js';
 import loadMigrationData from './config/data/migrations.js';
 
-const PORT = process.env.APP_MODE === 'DEVELOPMENT' ? process.env.PORT : 8000;
+const PORT = process.env.APP_MODE === 'DEVELOPMENT' ? process.env.PORT : process.env.PORT;
 const HOST = process.env.APP_MODE === 'DEVELOPMENT' ? 'localhost' : 'localhost';
 
 const server = http.createServer(app);
