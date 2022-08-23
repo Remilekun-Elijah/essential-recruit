@@ -1,0 +1,38 @@
+{
+  "name": "essential_recruit_backend",
+  "version": "1.0.0",
+  "description": "Essential Recruit backend MVP",
+  "main": "server.js",
+  "repository": "https://github.com/EssentialRecruit/essential_recruit_backend.git",
+  "author": "'AbdulRazaq <'razaqayomide01@gmail.com'>",
+  "license": "Essential Recruit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "argon2": "^0.28.7",
+    "axios": "^0.27.2",
+    "cloudinary": "^1.30.1",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-rate-limit": "^6.4.0",
+    "express-validator": "^6.14.2",
+    "helmet": "^5.1.0",
+    "html-to-text": "^8.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.4.6",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^3.2.9",
+    "nodemailer": "^6.7.7",
+    "nodemon": "^2.0.19",
+    "require-main-filename": "^2.0.0",
+    "sharp": "^0.30.7",
+    "xss-clean": "^0.1.1"
+  }
+}
