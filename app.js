@@ -19,7 +19,7 @@ dotenv.config();
 
 const app = express();
 
-const basePath = '/api/v1';
+const basePath = '/v1';
 
 app.enable('trust proxy');
 app.use(cors());
