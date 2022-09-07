@@ -98,7 +98,7 @@ export const validateUserCreation = [
 		.withMessage('password must be a string value')
 		.isLength({ min: 8 })
 		.withMessage('password must contain at least 8 characters')
-		.matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+		.matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d].{8,}$/)
 		.withMessage(
 			'password must contain minimum eight characters, at least one letter and one number',
 		),
@@ -177,7 +177,8 @@ export const validateUserLogin = [
 		.withMessage('password must be a string value')
 		.isLength({ min: 8 })
 		.withMessage('password must contain at least 8 characters')
-		.matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+		// ^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z].{8,}$
+		.matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d].{8,}$/)
 		.withMessage(
 			'password must contain minimum eight characters, at least one letter and one number',
 		)
@@ -269,7 +270,7 @@ export const validateResettingPassword = [
 		.withMessage('password must be a string value')
 		.isLength({ min: 8 })
 		.withMessage('password must contain at least 8 characters')
-		.matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+		.matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d].{8,}$/)
 		.withMessage(
 			'password must contain minimum eight characters, at least one letter and one number',
 		),
