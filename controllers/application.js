@@ -54,9 +54,61 @@ export default class ApplicationController {
 		return catchAsyncError(async function (req, res, next) {
 			const { ieltsDocUrl, ecaDocUrl, resumeDocUrl } =
 				await ApplicationController.uploadDocuments(req);
-			const application = new Application({
+
+				let application = await Application.findOne({owner: req.user.id})
+
+				if(application) {
+					// Automatically calculate the user tier level depending on whether they provided the required document. tier level 3 means the lowest tier, 2 means the lower tier and 1 represents the highest tier.
+					let tierLevel;
+					if (
+						req.body.hasIELTS == 1 &&
+						ieltsDocUrl && ecaDocUrl &&
+						req.body.credentialsEvaluated
+					) {
+						tierLevel = 1;
+					} else if (
+						req.body.hasIELTS == 1 &&
+						(ieltsDocUrl || ecaDocUrl) &&
+						req.body.credentialsEvaluated
+					) {
+						tierLevel = 2;
+					} else {
+						tierLevel = 3;
+					}
+					application = await Application.findByIdAndUpdate(application._id, {"$set":{
+					applicationStage: res.locals.nextStage._id,
+				relocating: req.body.relocating,
+				relocationIdealTimeline: req.body.relocationIdealTimeline,
+				jobSearchStage: req.body.jobSearchStage,
+				workingExperience: req.body.workingExperience,
+				currentLocation: req.body.currentLocation,
+				locationPreferences: req.body.locationPreferences,
+				takingRolesOutsideTopLocationPref:
+					req.body.takingRolesOutsideTopLocationPref,
+				workConcerns: req.body.workConcerns,
+				hasLicense: req.body.hasLicense,
+				activeLicenseLocations: req.body.activeLicenseLocations,
+				highestEducationLevel: req.body.highestEducationLevel,
+				workedInLongTermFacility: req.body.workedInLongTermFacility,
+				certifications: req.body.certifications,
+				otherCertifications: req.body.otherCertifications,
+				specialties: req.body.specialties,
+				spokenLanguages: req.body.spokenLanguages,
+				hasIELTS: req.body.hasIELTS,
+				IELTSDocument: ieltsDocUrl,
+				credentialsEvaluated: req.body.credentialsEvaluated,
+				ECADocument: ecaDocUrl,
+				phoneNumber: req.body.phoneNumber,
+				resumeDocument: resumeDocUrl,
+				tierLevel: tierLevel
+				}
+			},{new: true})
+			
+				}else {
+
+			 application = new Application({
 				owner: req.user.id,
-				applicationStage: req.body.applicationStage,
+				applicationStage: res.locals.nextStage._id,
 				relocating: req.body.relocating,
 				relocationIdealTimeline: req.body.relocationIdealTimeline,
 				jobSearchStage: req.body.jobSearchStage,
@@ -81,8 +133,10 @@ export default class ApplicationController {
 				phoneNumber: req.body.phoneNumber,
 				resumeDocument: resumeDocUrl,
 			});
+
 			await application.save();
-			Response.OK(res, 'application onboarding completed successfully');
+		}
+			Response.OK(res, 'application updated successfully', application);
 		});
 	}
 

@@ -38,6 +38,7 @@ router.post(
 );
 
 router.route('/onboard').put(
+	ApplicationValidator.validateAppStage,
 	hasApplication,
 	uploader.pdfUpload.fields([
 		{ name: 'ieltsDocument', maxCount: 1 },
@@ -45,7 +46,6 @@ router.route('/onboard').put(
 		{ name: 'resumeDocument', maxCount: 1 },
 	]),
 	ApplicationValidator.validateApplicationCreation,
-	ValidationHandler,
 	ApplicationController.createOnboardingApplication(),
 );
 

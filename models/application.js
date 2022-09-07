@@ -30,22 +30,25 @@ const ApplicationSchema = new mongoose.Schema({
 	},
 	workingExperience: {
 		type: Number, // 0 or less represents experience level of less than 1 year. 1 or more represents experience level of more than 1 year
-		required: true,
+		// required: true,
 	},
 	currentLocation: {
 		type: mongoose.SchemaTypes.ObjectId,
 		ref: 'CountryLocation',
-		required: true,
+		// required: true,
 	},
 	locationPreferences: [
 		{ type: mongoose.SchemaTypes.ObjectId, ref: 'CanadaProvince' },
 	],
 	takingRolesOutsideTopLocationPref: {
 		type: Boolean,
-		required: true,
+		// required: true,
 	},
 	workConcerns: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'WorkConcern' }],
-	hasLicense: { type: Number, required: true },
+	hasLicense: { 
+		type: Number,
+		// required: true 
+	},
 	activeLicenseLocations: [
 		{
 			location: { type: mongoose.SchemaTypes.ObjectId, ref: 'CountryLocation' },
@@ -58,7 +61,7 @@ const ApplicationSchema = new mongoose.Schema({
 	},
 	workedInLongTermFacility: {
 		type: Boolean,
-		required: true,
+		// required: true,
 	},
 	certifications: [
 		{ type: mongoose.SchemaTypes.ObjectId, ref: 'Certification' },
@@ -78,25 +81,25 @@ const ApplicationSchema = new mongoose.Schema({
 	],
 	hasIELTS: {
 		type: Number,
-		required: true,
+		// required: true,
 	},
 	IELTSDocument: {
 		type: String,
 	},
 	credentialsEvaluated: {
 		type: Boolean,
-		required: true,
+		// required: true,
 	},
 	ECADocument: {
 		type: String,
 	},
 	phoneNumber: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	resumeDocument: {
 		type: String,
-		required: true,
+		// required: true,
 	},
 	expertiseLevel: {
 		type: String,
@@ -112,38 +115,16 @@ const ApplicationSchema = new mongoose.Schema({
 		type: String,
 	},
 });
-// Automatically calculate the user tier level depending on whether they provided the required document. tier level 3 means the lowest tier, 2 means the lower tier and 1 represents the highest tier.
-
-ApplicationSchema.pre('save', function (next) {
-	if (
-		this.hasIELTS === 1 &&
-		this.IELTSDocument &&
-		this.credentialsEvaluated &&
-		this.ECADocument
-	) {
-		this.tierLevel = 1;
-	} else if (
-		this.hasIELTS === 1 &&
-		this.credentialsEvaluated &&
-		((this.IELTSDocument && !this.ECADocument) ||
-			(!this.IELTSDocument && this.ECADocument))
-	) {
-		this.tierLevel = 2;
-	} else {
-		this.tierLevel = 3;
-	}
-	next();
-});
 
 ApplicationSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: 'owner',
 		select:
-			'email firstName lastName phoneNumber avatar jobApplications createdAt -_id',
+			'email firstName lastName avatar jobApplications createdAt -_id',
 	})
 		.populate({
 			path: 'applicationStage',
-			select: 'applicationStage -_id',
+			select: 'applicationStage _id',
 		})
 		.populate({
 			path: 'relocationIdealTimeline',
@@ -188,5 +169,13 @@ ApplicationSchema.pre(/^find/, function (next) {
 		});
 	next();
 });
+
+ApplicationSchema.post(/find/, function (doc) {
+	if(doc){
+			if(doc.applicationStage.applicationStage === "Personal Details" && doc.phoneNumber){
+				doc.applicationStage.applicationStage = "Completed";
+			}
+	}
+})
 
 export default mongoose.model('Application', ApplicationSchema);
