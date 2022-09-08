@@ -12,10 +12,10 @@ import Certification from '../../models/Application/certification.js';
 import SpokenLanguage from '../../models/Application/language.js';
 import Specialty from '../../models/Application/specialty.js';
 import ApplicationStage from '../../models/Application/applicationStage.js';
-import Nationality from '../../models/immigration/nationality.js';
-import MaritalStatus from '../../models/immigration/maritalStatus.js';
-import Test from '../../models/immigration/test.js';
-import VisaType from '../../models/immigration/visaType.js';
+import Nationality from '../../models/Immigration/nationality.js';
+import MaritalStatus from '../../models/Immigration/maritalStatus.js';
+import Test from '../../models/Immigration/test.js';
+import VisaType from '../../models/Immigration/visaType.js';
 
 
 async function loadRelocationIdealTimeline() {
