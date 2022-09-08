@@ -9,7 +9,7 @@ import loadMigrationData from './config/data/migrations.js';
 
 const DBURI = process.env.APP_MODE === 'DEVELOPMENT' ? process.env.MONGODB_URI_TEST : process.env.MONGODB_URI
 const PORT = process.env.APP_MODE === 'DEVELOPMENT' ? process.env.PORT : process.env.PORT;
-const HOST = process.env.APP_MODE === 'DEVELOPMENT' ? 'localhost' : 'localhost';
+const HOST = process.env.APP_MODE === 'DEVELOPMENT' ? 'localhost' : '0.0.0.0';
 
 const server = http.createServer(app);
 
