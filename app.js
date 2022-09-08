@@ -11,7 +11,7 @@ import compression from 'compression';
 import AuthRouter from './routers/auth.js';
 import GeneralRouter from './routers/general.js';
 import ApplicationRouter from './routers/application.js';
-import ImmigrationRouter from './routers/immigration.js'
+// import ImmigrationRouter from './routers/immigration.js'
 
 import globalErrorHandler from './middlewares/error_handler.js';
 import Response from './helpers/response.js';
