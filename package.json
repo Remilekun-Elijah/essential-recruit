@@ -12,6 +12,10 @@
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
+"engines": {
+  "node": "16.17.0",
+  "npm": "8.15.0"
+},
   "dependencies": {
     "airtable": "^0.11.4",
     "argon2": "^0.28.7",

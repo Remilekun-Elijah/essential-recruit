@@ -28,13 +28,13 @@ export default class EmailHelper {
 			});
 		} else {
 			return nodemailer.createTransport({
-				host: process.env.MAILTRAP_HOST,
-				port: process.env.MAILTRAP_PORT,
+				host: process.env.GMAIL_HOST,
+				port: process.env.GMAIL_PORT,
 				ssl: false,
 				tls: true,
 				auth: {
-					user: process.env.MAILTRAP_USERNAME,
-					pass: process.env.MAILTRAP_PASSWORD,
+					user: process.env.GMAIL_USERNAME,
+					pass: process.env.GMAIL_PASSWORD,
 				},
 			});
 		}
