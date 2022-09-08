@@ -12,6 +12,11 @@ import Certification from '../../models/Application/certification.js';
 import SpokenLanguage from '../../models/Application/language.js';
 import Specialty from '../../models/Application/specialty.js';
 import ApplicationStage from '../../models/Application/applicationStage.js';
+import Nationality from '../../models/immigration/nationality.js';
+import MaritalStatus from '../../models/immigration/maritalStatus.js';
+import Test from '../../models/immigration/test.js';
+import VisaType from '../../models/immigration/visaType.js';
+
 
 async function loadRelocationIdealTimeline() {
 	if (!(await RelocationIdealTimeline.estimatedDocumentCount())) {
@@ -30,6 +35,44 @@ async function loadJobSearchStage() {
 				return { stage };
 			}),
 		);
+	}
+}
+
+async function loadNationalities() {
+	if(!(await Nationality.estimatedDocumentCount())) {
+		await Nationality.insertMany(
+			data.nationality.map(nationality => {
+				return { nationality }
+			})
+		)
+	}
+}
+
+async function loadMaritalStatus() {
+	if(!(await MaritalStatus.estimatedDocumentCount())) {
+		await MaritalStatus.insertMany(
+			data.maritalStatus.map(status => {
+				return { status }
+			})
+		)
+	}
+}
+
+async function loadTestData() {
+	if(!(await Test.estimatedDocumentCount())) {
+		await Test.insertMany(
+			data.testData.map(data => data)
+		)
+	}
+}
+
+async function loadVisaType() {
+	if(!(await VisaType.estimatedDocumentCount())) {
+		await VisaType.insertMany(
+			data.visaType.map(type => {
+				return { type }
+			})
+		)
 	}
 }
 
@@ -124,6 +167,10 @@ export default async function loadMigrationData() {
 		await loadSpokenLanguages();
 		await loadSpecialties();
 		await loadApplicationStages();
+		await loadNationalities();
+		await loadMaritalStatus();
+		await loadTestData();
+		await loadVisaType();
 	} catch (error) {
 		console.error(
 			`an error occurred while loading migration data: ${error.message}`,
