@@ -58,7 +58,7 @@ app.use((req, res, next) => {
 app.use(`${basePath}/auth`, AuthRouter);
 app.use(`${basePath}/general`, GeneralRouter);
 app.use(`${basePath}/application`, ApplicationRouter);
-app.use(`${basePath}/immigration`, ImmigrationRouter);
+// app.use(`${basePath}/immigration`, ImmigrationRouter);
 
 app.get(`${basePath}/`, (req, res, next) => {
 	return Response.OK(res, 'Welcome to Essential Recruit!');
