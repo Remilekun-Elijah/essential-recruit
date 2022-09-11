@@ -1,5 +1,4 @@
 import fs from 'fs';
-
 import HttpStatuses from '../helpers/http_statuses.js';
 import Response from '../helpers/response.js';
 import catchAsyncError from '../helpers/catch_async_error.js';
@@ -145,6 +144,25 @@ export default class ApplicationController {
 			const details = await Application.findOne({ owner: req.user.id });
 			Response.OK(res, 'application details retrieved successfully', details);
 		});
+	}
+
+	static getAllApplications() {
+		return catchAsyncError(async function (req, res, next) {
+		
+		let { page, pageSize } = req.query;
+      page = parseInt(page) || 1
+      pageSize = parseInt(pageSize) || 10;
+
+      const filter = {
+        limit: pageSize,
+        skip: Math.round((page - 1) * pageSize)
+      }
+    
+      const total = await Application.countDocuments()
+      let application = await Application.find({}).skip(filter.skip).limit(filter.limit).sort({createdAt: -1});
+
+						Response.OK(res, 'application details retrieved successfully', {page, pageSize, total, application});
+					});
 	}
 
 	static uploadVideo() {

@@ -10,6 +10,7 @@ export default {
 	statusUnauthorized: 401,
 	statusForbidden: 403,
 	statusNotFound: 404,
+	statusGone: 410,
 	statusUnprocessableEntity: 422,
 	statusMethodNotAllowed: 405,
 	statusNotImplemented: 501,
