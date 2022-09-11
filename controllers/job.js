@@ -41,7 +41,6 @@ export default class JobController {
       if(job){
         if(job.status !== JobStatuses.published) {
         data = await Job.updateOne({_id: jobId}, req.body)
-        console.log(data)
         if(data.acknowledged && data.modifiedCount) Response.OK(res, "Draft published successfully", data, HttpStatuses.statusCreated) 
         else  Response.error(res,  'Failed to publish job, please try again.');
       } else Response.error(res, 'Failed!!! Job already published.', HttpStatuses.statusBadRequest);
