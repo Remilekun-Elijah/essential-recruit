@@ -79,7 +79,6 @@ export const validateSchema = schema => {
   let errors = []
   
   for( let object of objectIds) {
-   console.log(object.id);
    if(object.id) if(!isValidObjectId(object.id)) errors.push(object.name)
   }
   
@@ -93,7 +92,6 @@ export const validateSchema = schema => {
    await schema.validateAsync(req.body);
    req.body = {...req.body, owner}
     next()
-
    } 
 } catch (err) {
  if (err.details) {
