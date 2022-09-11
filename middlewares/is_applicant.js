@@ -3,6 +3,7 @@ import HttpStatuses from '../helpers/http_statuses.js';
 import Application from '../models/application.js';
 
 export default function (req, res, next) {
+	
 	if (!req.user.isApplicant()) {
 		return Response.error(
 			res,

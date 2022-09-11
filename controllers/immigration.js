@@ -82,8 +82,8 @@ export default class ImmigrationController {
 
   static getImmigration() {
    return catchAsyncError(async function (req, res, next) {
-    const data = await Immigration.findOne({owner: req.user.id})
-    Response.OK(res, "Immigration data submitted successfully", data)
+    const data = await Immigration.find({})
+    Response.OK(res, "Immigration data retrieved successfully", data)
    })
   }
  }

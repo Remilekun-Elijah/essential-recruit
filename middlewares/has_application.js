@@ -2,7 +2,6 @@ import Response from '../helpers/response.js';
 import HttpStatuses from '../helpers/http_statuses.js';
 import Application from '../models/application.js';
 import { applicationStages } from '../config/data/data.js';
-import user from '../models/user.js';
 
 export default async function (req, res, next) {
 	

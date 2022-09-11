@@ -1,27 +1,10 @@
 import {
 	body
 } from 'express-validator';
-import mongoose from 'mongoose';
-
+import isValidObjectId from './validateObjectId.js';
 import GeneralModels from '../../models/Application/index.js';
 import joi from 'joi'
 
-function isValidObjectId(objectId) {
-	const ObjectId = mongoose.Types.ObjectId;
-	if (ObjectId.isValid(objectId)) {
-		if (String(new ObjectId(objectId)) === objectId) {
-			return true;
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-}
-
-
-
-// let appStage = "Relocation";
 
 let stageOne = joi.object().keys({
 		relocating: joi.boolean().required().valid(true),

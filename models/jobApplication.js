@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
+// import Application from './application';
 
 const JobApplicationSchema = new mongoose.Schema({
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+		ref: 'Application',
 		required: true,
 	},
 	job: {
@@ -11,15 +12,28 @@ const JobApplicationSchema = new mongoose.Schema({
 		ref: 'Job',
 		required: true,
 	},
-	jobCreator: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-		required: true,
-	},
+	status: {
+		type: Number,
+		default: 1,
+	}
+	// jobCreator: {
+	// 	type: mongoose.Schema.Types.ObjectId,
+	// 	ref: 'User',
+	// 	required: true,
+	// },
+}, {
+	timestamps: true
 });
 
+
 JobApplicationSchema.pre(/^find/, function (next) {
-	this.populate({ path: 'job', select: '' });
+	this.populate({ path: 'owner', select: '' })
+	.populate({
+			path: "job",
+			select: ""
+		})
+		next();
 });
+
 
 export default mongoose.model('JobApplication', JobApplicationSchema);

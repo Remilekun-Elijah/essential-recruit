@@ -170,9 +170,9 @@ ApplicationSchema.pre(/^find/, function (next) {
 	next();
 });
 
-ApplicationSchema.post(/find/, function (doc) {
+ApplicationSchema.post(/^find/, function (doc) {
 	if(doc){
-			if(doc.applicationStage.applicationStage === "Personal Details" && doc.phoneNumber){
+			if(doc?.applicationStage?.applicationStage === "Personal Details" && doc?.phoneNumber){
 				doc.applicationStage.applicationStage = "Completed";
 			}
 	}
