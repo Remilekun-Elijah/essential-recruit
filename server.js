@@ -26,7 +26,7 @@ mongoose
 	.catch(err => {
 		if (process.env.APP_MODE === 'DEVELOPMENT') {
 			console.error('error connecting to database!: ', err.name, err.message);
-			console.error(err);
+			console.error(err);	
 		} else {
 			console.error('error connecting to database!: ', err.name, err.message);
 		}

@@ -12,6 +12,7 @@ import AuthRouter from './routers/auth.js';
 import GeneralRouter from './routers/general.js';
 import ApplicationRouter from './routers/application.js';
 import ImmigrationRouter from './routers/immigration.js'
+import JobRouter from './routers/job.js'
 
 import globalErrorHandler from './middlewares/error_handler.js';
 import Response from './helpers/response.js';
@@ -59,6 +60,7 @@ app.use(`${basePath}/auth`, AuthRouter);
 app.use(`${basePath}/general`, GeneralRouter);
 app.use(`${basePath}/application`, ApplicationRouter);
 app.use(`${basePath}/immigration`, ImmigrationRouter);
+app.use(`${basePath}/job`, JobRouter)
 
 app.get(`${basePath}/`, (req, res, next) => {
 	return Response.OK(res, 'Welcome to Essential Recruit!');
