@@ -6,6 +6,7 @@ import GeneralModels from '../models/Application/index.js';
 export default class GeneralController {
 	static getData(model) {
 		return catchAsyncError(async function (req, res, next) {
+			console.log(model)
 			const data = await GeneralModels[model]['find']({});
 			Response.OK(res, `${model}s fetched successfully`, data);
 		});

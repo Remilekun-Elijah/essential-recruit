@@ -8,6 +8,11 @@ import RelocationIdealTimeline from './relocationIdealTimeline.js';
 import Specialty from './specialty.js';
 import WorkConcern from './workConcern.js';
 import ApplicationStage from './applicationStage.js';
+import MaritalStatus from '../Immigration/maritalStatus.js'
+import Nationality from '../Immigration/nationality.js'
+import Test from '../Immigration/test.js'
+import VisaType from '../Immigration/visaType.js'
+
 
 export default {
 	CanadaProvince,
@@ -20,4 +25,8 @@ export default {
 	Specialty,
 	WorkConcern,
 	ApplicationStage,
+	MaritalStatus,
+	Nationality,
+	Test,
+	VisaType
 };
