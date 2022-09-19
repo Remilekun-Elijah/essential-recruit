@@ -88,7 +88,7 @@ const ApplicationSchema = new mongoose.Schema({
 	},
 	credentialsEvaluated: {
 		type: Boolean,
-		required: true,
+		// required: true,
 	},
 	ECADocument: {
 		type: String,
