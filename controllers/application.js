@@ -9,43 +9,43 @@ import User from '../models/user.js';
 
 export default class ApplicationController {
 	static async uploadDocuments(req) {
-		let ieltsDocUrl;
-		let ecaDocUrl;
-		let resumeDocUrl;
-		let offerLetterDocumentUrl;
-		if (req.files['ieltsDocument']) {
-			ieltsDocUrl = await uploadToCloudinary(
-				req.files['ieltsDocument'][0].path,
-				'documents/ielts',
-			);
-			fs.unlinkSync(req.files['ieltsDocument'][0].path);
-		}
-		if (req.files['ecaDocument']) {
-			ecaDocUrl = await uploadToCloudinary(
-				req.files['ecaDocument'][0].path,
-				'documents/ecas',
-			);
-			fs.unlinkSync(req.files['ecaDocument'][0].path);
-		}
-		if (req.files['resumeDocument']) {
-			resumeDocUrl = await uploadToCloudinary(
-				req.files['resumeDocument'][0].path,
-				'documents/resumes',
-			);
-			fs.unlinkSync(req.files['resumeDocument'][0].path);
-		}
-		if (req.files['offerLetterDocument']) {
-			offerLetterDocument = await uploadToCloudinary(
-				req.files['offerLetterDocument'][0].path,
-				'documents/offerLetterDocuments',
-			);
-			fs.unlinkSync(req.files['offerLetterDocument'][0].path);
-		}
+		// let ieltsDocUrl;
+		// let ecaDocUrl;
+		// let resumeDocUrl;
+		// let offerLetterDocumentUrl;
+		// if (req.files['ieltsDocument']) {
+		// 	ieltsDocUrl = await uploadToCloudinary(
+		// 		req.files['ieltsDocument'][0].path,
+		// 		'documents/ielts',
+		// 	);
+		// 	fs.unlinkSync(req.files['ieltsDocument'][0].path);
+		// }
+		// if (req.files['ecaDocument']) {
+		// 	ecaDocUrl = await uploadToCloudinary(
+		// 		req.files['ecaDocument'][0].path,
+		// 		'documents/ecas',
+		// 	);
+		// 	fs.unlinkSync(req.files['ecaDocument'][0].path);
+		// }
+		// if (req.files['resumeDocument']) {
+		// 	resumeDocUrl = await uploadToCloudinary(
+		// 		req.files['resumeDocument'][0].path,
+		// 		'documents/resumes',
+		// 	);
+		// 	fs.unlinkSync(req.files['resumeDocument'][0].path);
+		// }
+		// if (req.files['offerLetterDocument']) {
+		// 	offerLetterDocument = await uploadToCloudinary(
+		// 		req.files['offerLetterDocument'][0].path,
+		// 		'documents/offerLetterDocuments',
+		// 	);
+		// 	fs.unlinkSync(req.files['offerLetterDocument'][0].path);
+		// }
 		return {
-			ieltsDocUrl,
-			ecaDocUrl,
-			resumeDocUrl,
-			offerLetterDocumentUrl,
+			ieltsDocUrl: req.body.ieltsDocument || "",
+			ecaDocUrl: req.body.ecaDocument || "",
+			resumeDocUrl: req.body.resumeDocument || "",
+			offerLetterDocumentUrl: req.body.offerLetterDocument || "",
 		};
 	}
 
@@ -167,25 +167,23 @@ export default class ApplicationController {
 
 	static uploadVideo() {
 		return catchAsyncError(async function (req, res, next) {
-			let videoUrl;
-			if (!req.file || !req.file['fieldname'] === 'video') {
+			if (!req.body.video) {
 				return Response.error(
 					res,
 					'please provide a valid introductory video',
 					HttpStatuses.statusBadRequest,
 				);
+			}else{
+				await Application.findOneAndUpdate(
+					{ owner: req.user.id },
+					{ introductoryVideo: req.body.video },
+				);
+				Response.OK(res, 'introductory video uploaded successfully', {
+					video: req.body.video,
+				});
 			}
-			const path = req.file.path;
-			videoUrl = await uploadToCloudinary(path, '/videos');
-			fs.unlinkSync(path);
-			await Application.findOneAndUpdate(
-				{ owner: req.user.id },
-				{ introductoryVideo: videoUrl },
-			);
-			Response.OK(res, 'introductory video uploaded successfully', {
-				video: videoUrl,
-			});
 		});
+			
 	}
 
 	static updateApplication() {

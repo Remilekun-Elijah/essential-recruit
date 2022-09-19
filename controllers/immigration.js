@@ -43,6 +43,8 @@ export default class ImmigrationController {
      hasCanadaVisaDenial: req.hasCanadaVisaDenial
     })
 
+Immigration.findById(data._id).then(data=>{
+  if(data){
     airtable('Table 1').create({
      "Full Name": data.fullName,
      "Gender": data.gender,
@@ -71,10 +73,11 @@ export default class ImmigrationController {
      if (err) {
        console.error(err);
        return;
-     }
-     console.log(record.getId());
-   });
-
+      }
+      console.log(record.getId());
+    });
+  }
+  })
     Response.OK(res, "Immigration data submitted successfully", data, HttpStatuses.statusCreated)
    }
   })

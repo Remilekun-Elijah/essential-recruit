@@ -95,7 +95,7 @@ const immigrationSchema = new mongoose.Schema({
 			}
 });
 
-immigrationSchema.pre(/find/, function (next) {
+immigrationSchema.pre(/^find/, function (next) {
 	this.populate({
 		path: 'owner',
 		select:

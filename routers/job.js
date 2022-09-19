@@ -25,11 +25,11 @@ router.use(JobController.verifyDelete())
 router.route("/")
  .get(JobController.retrieveAll())
  .post(
-  uploader.imageUpload.single("companyLogo"),
+  // uploader.imageUpload.single("companyLogo"),
   validateSchema(createJobSchema),
   JobController.create()
  ).patch(
-  uploader.imageUpload.single("companyLogo"),
+  // uploader.imageUpload.single("companyLogo"),
   validateSchema(editJobSchema),
   JobController.saveDraft()
  );
@@ -39,7 +39,7 @@ router.route("/")
 router.route("/:slug")
  .get(JobController.retrieve())
  .put(
-  uploader.imageUpload.single("companyLogo"),
+  // uploader.imageUpload.single("companyLogo"),
   validateSchema(editJobSchema),
   JobController.update()
  )

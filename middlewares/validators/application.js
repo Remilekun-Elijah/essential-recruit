@@ -49,12 +49,14 @@ let stageOne = joi.object().keys({
 		}).min(1).max(5),
 
 		hasIELTS: joi.number().min(0).max(2).required(),
-
-		credentialsEvaluated: joi.boolean().required()
+		ieltsDocument: joi.string(),
 	}),
 
 	stageSix = joi.object().keys({
-		phoneNumber: joi.string().label("Phone number").required()
+		phoneNumber: joi.string().label("Phone number").required(),
+		credentialsEvaluated: joi.boolean().required(),
+		ecaDocument: joi.string(),
+		resumeDocument: joi.string()
 	})
 
 const stageLevels = {
@@ -129,18 +131,18 @@ export const validateApplicationCreation = async (req, res, next) => {
 			if (req.body.hasLicense) error = req.body.hasLicense == 2 && (req.body.activeLicenseLocations instanceof Array == false || !req.body.activeLicenseLocations.length) ? "Active License Location is required" : null;
 			switch (appStage) {
 
+				// case stages[5]:
+				// 	error = !req.files["resumeDocument"] ? "You must provide resume document before proceeding" : null;
+					// break;
+				case stages[4]:
+					error = req.body.hasIELTS != '1' && req.body['ieltsDocument'] ?
+						"Cannot provide ielts document when you do not have ielts" : req.body.hasIELTS == '1' && !req.body['ieltsDocument'] ? "You must provide ielts document before proceeding" : null;
+					break;
 				case stages[5]:
-					error = !req.files["resumeDocument"] ? "You must provide resume document before proceeding" : null;
-					break;
-				case stages[4]:
-					error = req.body.hasIELTS != '1' && req.files['ieltsDocument'] ?
-						"Cannot provide ielts document when you do not have ielts" : req.body.hasIELTS == '1' && !req.files['ieltsDocument'] ? "You must provide ielts document before proceeding" : null;
-					break;
-				case stages[4]:
-					error = req.body.credentialsEvaluated !== 'true' &&
-						req.files['ecaDocument'] ? "Cannot provide eca document when your credentials have not been evaluated" :
+					error = req.body.credentialsEvaluated != 'true' &&
+						req.body['ecaDocument'] ? "Cannot provide ECA document when your credentials have not been evaluated" :
 						req.body.credentialsEvaluated == 'true' &&
-						(!req.files['ecaDocument'] && !req.files['ieltsDocument']) ? "You must provide eca document before proceeding" : null;
+						!req.body['ecaDocument'] ? "You must provide eca document before proceeding" : null;
 					break
 			}
 
@@ -182,6 +184,30 @@ export const validateApplicationCreation = async (req, res, next) => {
 
 
 export const validateApplicationEdit = [
+	body('resumeDocument')
+	.if(body("resumeDocument").exists({
+		checkFalsy: true,
+		checkNull: true
+	})).isString()
+	.withMessage("resumeDocument must be a string"), 
+	body('ecaDocument')
+	.if(body("ecaDocument").exists({
+		checkFalsy: true,
+		checkNull: true
+	})).isString()
+	.withMessage("ecaDocument must be a string"), 
+	body('offerLetterDocument')
+	.if(body("offerLetterDocument").exists({
+		checkFalsy: true,
+		checkNull: true
+	})).isString()
+	.withMessage("offerLetterDocument must be a string"),
+	body('ieltsDocument')
+	.if(body("ieltsDocument").exists({
+		checkFalsy: true,
+		checkNull: true
+	})).isString()
+	.withMessage("ieltsDocument must be a string"),
 	body('firstName')
 	.trim()
 	.if(body('firstName').exists({

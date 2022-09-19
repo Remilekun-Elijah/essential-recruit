@@ -20,12 +20,12 @@ router
 	.route('/')
 	.get(ApplicationController.getApplicationDetails())
 	.patch(
-		uploader.pdfUpload.fields([
-			{ name: 'ieltsDocument', maxCount: 1 },
-			{ name: 'ecaDocument', maxCount: 1 },
-			{ name: 'resumeDocument', maxCount: 1 },
-			{ name: 'offerLetterDocument', maxCount: 1 },
-		]),
+		// uploader.pdfUpload.fields([
+		// 	{ name: 'ieltsDocument', maxCount: 1 },
+		// 	{ name: 'ecaDocument', maxCount: 1 },
+		// 	{ name: 'resumeDocument', maxCount: 1 },
+		// 	{ name: 'offerLetterDocument', maxCount: 1 },
+		// ]),
 		ApplicationValidator.validateApplicationEdit,
 		ValidationHandler,
 		ApplicationController.updateApplication(),
@@ -40,11 +40,11 @@ router.post(
 router.route('/onboard').put(
 	ApplicationValidator.validateAppStage,
 	hasApplication,
-	uploader.pdfUpload.fields([
-		{ name: 'ieltsDocument', maxCount: 1 },
-		{ name: 'ecaDocument', maxCount: 1 },
-		{ name: 'resumeDocument', maxCount: 1 },
-	]),
+	// uploader.pdfUpload.fields([
+	// 	{ name: 'ieltsDocument', maxCount: 1 },
+	// 	{ name: 'ecaDocument', maxCount: 1 },
+	// 	{ name: 'resumeDocument', maxCount: 1 },
+	// ]),
 	ApplicationValidator.validateApplicationCreation,
 	ApplicationController.createOnboardingApplication(),
 );

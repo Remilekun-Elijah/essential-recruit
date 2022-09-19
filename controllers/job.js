@@ -9,21 +9,20 @@ import fs from 'fs';
 import dayjs from 'dayjs'
 export default class JobController {
 
-  static async uploadCompanyLogo (req) {
-    const label = "companyLogo"
-    if (req.body[label]) {
-			const logo = await uploadToCloudinary(
-				req.body[label],
-				'images/recruiters',
-			);
-			fs.unlinkSync(req.body[label]);
-      return logo
-		}
-  }
+  // static async uploadCompanyLogo (req) {
+  //   const label = "companyLogo"
+  //   if (req.body[label]) {
+	// 		const logo = await uploadToCloudinary(
+	// 			req.body[label],
+	// 			'images/recruiters',
+	// 		);
+	// 		fs.unlinkSync(req.body[label]);
+  //     return logo
+	// 	}
+  // }
   static create(){
    return catchAsyncError(async function(req, res, next){
-     const companyLogo = await JobController.uploadCompanyLogo(req),
-      status = JobStatuses.published,
+     const status = JobStatuses.published,
       { jobId } = req.query,
       postFix = randomString.generate({
        length: 7,
@@ -34,7 +33,7 @@ export default class JobController {
       slug = req.body.title.replace(/[^a-zA-Z0-9-]/g, '-');
       slug = slug.endsWith('-') ? slug + postFix : slug + '-' + postFix;
 
-      req.body = { ...req.body, status, slug, companyLogo };
+      req.body = { ...req.body, status, slug };
       
     if(jobId) {
       const job = await Job.findById(jobId);
@@ -60,9 +59,8 @@ export default class JobController {
   static saveDraft () {
     return catchAsyncError(async function (req, res, next) {
       req.body = {...req.body, status: JobStatuses.drafted}
-      const companyLogo = await JobController.uploadCompanyLogo(req),
-       { jobId } = req.query;
-       if(companyLogo) req.body.companyLogo = companyLogo
+      const { jobId } = req.query;
+       
       let data;
       if (jobId){
         data = await Job.findByIdAndUpdate(jobId, req.body)
@@ -134,8 +132,7 @@ export default class JobController {
     return catchAsyncError(async function (req, res, next) {
       req.body = {...req.body, status: req.body.status || JobStatuses.published}
       delete req.body.owner
-      let companyLogo = req.body.companyLogo ? await JobController.uploadCompanyLogo(req) : "",
-      postFix = randomString.generate({
+      let postFix = randomString.generate({
        length: 7,
        charset: 'alphabetic'
       }); 
@@ -148,7 +145,7 @@ export default class JobController {
         slug = slug.endsWith('-') ? slug + postFix : slug + '-' + postFix;
         
       }
-      req.body = { ...req.body, slug, companyLogo };
+      req.body = { ...req.body, slug };
       
         data = await Job.findOneAndUpdate({slug: req.params.slug},  {$set: req.body})
       if(data) {

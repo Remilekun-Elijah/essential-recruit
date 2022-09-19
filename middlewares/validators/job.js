@@ -69,7 +69,6 @@ export const validateSchema = schema => {
  owner = req.user.id
 
 	try {
-  req.body.companyLogo = req.file?.path;
   
   const objectIds = [{id: location, name: "location"}]
   requiredLanguage?.forEach((d, i) => d.language ? objectIds.push({id: d.language, name: `requiredLanguage[${i}]`}) : null)
